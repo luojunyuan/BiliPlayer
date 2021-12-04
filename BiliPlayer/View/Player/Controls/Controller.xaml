@@ -1,0 +1,153 @@
+﻿<UserControl
+	x:Class="BiliPlayer.View.Player.Controls.Controller" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:BiliPlayer.View.Player.Controls" xmlns:r="clr-namespace:BiliPlayer"
+	Background="#7F000000">
+	<FrameworkElement.Resources>
+		<ResourceDictionary>
+			<Style
+				TargetType="{x:Type Button}"
+				BasedOn="{StaticResource SimpleButton}"
+				x:Key="{x:Type Button}">
+				<Setter
+					Property="Focusable"
+					Value="False" />
+				<Setter
+					Property="VerticalAlignment"
+					Value="Center" />
+				<Setter
+					Property="Height"
+					Value="20" />
+				<Setter
+					Property="Padding"
+					Value="8,2" />
+			</Style>
+		</ResourceDictionary>
+	</FrameworkElement.Resources>
+	<StackPanel
+		Margin="8"
+		VerticalAlignment="Top">
+		<Grid
+			VerticalAlignment="Top">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition
+					Width="483*" />
+				<ColumnDefinition
+					Width="120" />
+			</Grid.ColumnDefinitions>
+			<Grid
+				Opacity="0.8"
+				Margin="0,0,15,0">
+				<Slider
+					Name="slider"
+					VerticalAlignment="Center"
+					IsHitTestVisible="False"
+					LargeChange="10"
+					Style="{DynamicResource SimpleSlider}"
+					Maximum="{Binding Duration.TotalSeconds, Delay=500}"
+					Value="{Binding CurrentTime.TotalSeconds, Mode=OneWay, Delay=250}" />
+				<Slider
+					Opacity="0.01"
+					VerticalAlignment="Center"
+					IsMoveToPointEnabled="True"
+					Maximum="{Binding Duration.TotalSeconds}"
+					PreviewMouseLeftButtonUp="onProgressChanged" />
+			</Grid>
+			<DockPanel
+				Grid.Column="1">
+				<TextBlock
+					Text=""
+					FontSize="16"
+					Margin="0,2,0,-2"
+					Padding="0,1"
+					Style="{StaticResource FontAwesome}">
+					<UIElement.Effect>
+						<DropShadowEffect
+							Color="White"
+							ShadowDepth="0"
+							BlurRadius="12"
+							Direction="0" />
+					</UIElement.Effect>
+				</TextBlock>
+				<Grid
+					Opacity="0.8"
+					Margin="8,0,0,0">
+					<Slider
+						Maximum="1"
+						VerticalAlignment="Center"
+						IsMoveToPointEnabled="True"
+						Style="{DynamicResource SimpleSlider}"
+						Focusable="False"
+						Value="{Binding Volume, Mode=TwoWay}" />
+				</Grid>
+			</DockPanel>
+		</Grid>
+		<DockPanel
+			LastChildFill="False">
+			<Button
+				ToolTip="打开视频/本地弹幕"
+				Command="{Binding Commands.Open}">
+				<TextBlock
+					Text=""
+					Margin="0,2,0,-2"
+					Style="{StaticResource FontAwesome}" />
+			</Button>
+			<Button
+				Margin="2,0"
+				ToolTip="打开在线弹幕"
+				Command="{Binding Commands.OpenOnlineTitle}">
+				<TextBlock
+					Text=""
+					Margin="0,2,0,-2"
+					Padding="0,1"
+					Style="{StaticResource FontAwesome}" />
+			</Button>
+			<Button
+				Margin="8,0,2,0"
+				Command="{Binding Commands.TogglePlayPause}"
+				ToolTip="{Binding State, Converter={local:PlayStateToTooltip}}">
+				<StackPanel
+					Orientation="Horizontal">
+					<TextBlock
+						Margin="0,2,0,-2"
+						Style="{StaticResource FontAwesome}"
+						Width="12"
+						Text="{Binding State, Converter={local:PlayStateToIcon}}" />
+					<TextBlock
+						Margin="4,0,0,0"
+						Text="{Binding State, Converter={local:PlayStateToTooltip}}" />
+				</StackPanel>
+			</Button>
+			<Button
+				Margin="0,0,2,0"
+				ToolTip="停止"
+				Command="{Binding Commands.Stop}">
+				<TextBlock
+					Text=""
+					Margin="0,2,0,-2"
+					Padding="0,1"
+					Style="{StaticResource FontAwesome}" />
+			</Button>
+			<TextBlock
+				Foreground="#FFFFFFFF"
+				Margin="8,0"
+				VerticalAlignment="Center">
+				<Run
+					Text="{Binding CurrentTime, Mode=OneWay, StringFormat=hh\:mm\:ss, FallbackValue=00:00:00, TargetNullValue=00:00:00}" /> <Run
+					Text="/" /> <Run
+					Text="{Binding Duration, Mode=OneWay, StringFormat=hh\:mm\:ss, FallbackValue=00:00:00, TargetNullValue=00:00:00}" /></TextBlock>
+			<CheckBox
+				Content="显示字幕"
+				VerticalAlignment="Center"
+				Foreground="#FFFFFFFF"
+				DockPanel.Dock="Right"
+				Focusable="False"
+				HorizontalAlignment="Right"
+				IsChecked="{Binding ShowTitle, Mode=TwoWay}" />
+			<TextBlock
+				Foreground="#FFFFFFFF"
+				Margin="8,0"
+				VerticalAlignment="Center"
+				DockPanel.Dock="Right"
+				Text="{Binding Message}" />
+		</DockPanel>
+	</StackPanel>
+</UserControl>

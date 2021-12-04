@@ -8,7 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="Resource\BasicStyles.xaml" />
+    <Page Remove="Resource\SimpleStyles.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\BasicStyles.xaml" />
+    <Resource Include="Resource\SimpleStyles.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MainWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
 </Project>

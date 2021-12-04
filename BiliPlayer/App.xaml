@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:BiliPlayer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+					Source="/Resource/SimpleStyles.xaml" />
+                <ResourceDictionary
+					Source="/Resource/BasicStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
