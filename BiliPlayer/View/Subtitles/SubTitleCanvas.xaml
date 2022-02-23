@@ -1,7 +1,15 @@
-﻿<UserControl
-	x:Class="BiliPlayer.View.Subtitles.SubTitleCanvas" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:BiliPlayer.View.Subtitles" xmlns:c="clr-namespace:BiliPlayer.View.Subtitles.Controls" xmlns:util="clr-namespace:BiliPlayer.Util">
-	<c:TitleContainer
-		Name="container"
-		Visibility="{Binding ShowTitle, Converter={util:BooleanToVisibility VisibleValue=True}}"
-		Opacity="{Binding SettingData.Opacity}" />
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="BiliPlayer.View.Subtitles.SubTitleCanvas"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:BiliPlayer.View.Subtitles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BiliPlayer.View.Subtitles"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="clr-namespace:BiliPlayer.Util">
+    <c:TitleContainer
+        x:Name="container"
+        Opacity="{Binding SettingData.Opacity}"
+        Visibility="{Binding ShowTitle, Converter={util:BooleanToVisibility VisibleValue=True}}" />
 </UserControl>

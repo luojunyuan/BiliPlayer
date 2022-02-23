@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,34 +11,32 @@ using System.Windows.Markup;
 using System.Windows.Media.Animation;
 using BiliPlayer.View.Subtitles.Controls;
 
-namespace BiliPlayer.View.Subtitles
+namespace BiliPlayer.View.Subtitles;
+
+[Export]
+public partial class SubTitleCanvas : UserControl, IViewPart
 {
-	[Export]
-	public partial class SubTitleCanvas : UserControl, IViewPart, IComponentConnector
+	[Import]
+	private BulletCurtainController _controller;
+
+	public SubTitleCanvas()
 	{
-		public SubTitleCanvas()
-		{
-			this.InitializeComponent();
-		}
+		InitializeComponent();
+	}
 
-		public void Init(Panel container)
-		{
-			base.DataContext = this._controller;
-			Panel.SetZIndex(this, 1);
-		}
+	public void Init(Panel container)
+	{
+		base.DataContext = _controller;
+		Panel.SetZIndex(this, 1);
+	}
 
-		internal Timeline Init(IEnumerable<TitleInfo> titles)
-		{
-			this.container.Clear();
-			(from title in titles ?? new TitleInfo[0]
-				where !string.IsNullOrEmpty(title.Text)
-				let visual = TitleVisual.Create(title)
-				select visual).ForEach(new Action<TitleVisual>(this.container.Add));
-			return this.container.CreateTimelineGroup();
-		}
-
-		// Token: 0x04000022 RID: 34
-		[Import]
-		private BulletCurtainController _controller;
+	internal Timeline Init(IEnumerable<TitleInfo> titles)
+	{
+		container.Clear();
+		(from title in titles ?? new TitleInfo[0]
+			where !string.IsNullOrEmpty(title.Text)
+			let visual = TitleVisual.Create(title)
+			select visual).ToList().ForEach(container.Add);
+		return container.CreateTimelineGroup();
 	}
 }

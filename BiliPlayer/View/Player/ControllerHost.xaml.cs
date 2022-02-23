@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -11,58 +11,54 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using BiliPlayer.View.Player.Controls;
 
-namespace BiliPlayer.View.Player
+namespace BiliPlayer.View.Player;
+
+public partial class ControllerHost : UserControl, IViewPart
 {
-	public partial class ControllerHost : UserControl, IViewPart
+	[Import]
+	private TaskbarIndicator _taskbarIndicator;
+
+	[Import]
+	private MediaElement _mediaElement;
+
+	[Import]
+	private BulletCurtainController _controller;
+
+	private InputOperation _input;
+
+	public ControllerHost()
 	{
-		public ControllerHost()
-		{
-			this.InitializeComponent();
-		}
+		InitializeComponent();
+	}
 
-		public void Init(Panel container)
+	public void Init(Panel container)
+	{
+		Panel.SetZIndex(this, 100);
+		_mediaElement.MouseDown += ChangeControllerVisibleState;
+		base.DataContext = _controller;
+		container.ContextMenu = new MainMenu
 		{
-			Panel.SetZIndex(this, 100);
-			this._mediaElement.MouseDown += this.ChangeControllerVisibleState;
-			base.DataContext = this._controller;
-			container.ContextMenu = new MainMenu
-			{
-				DataContext = this._controller
-			};
-			this._taskbarIndicator.Regist(container.FindLogicalParent<Window>());
-			this._input = new InputOperation(container.FindLogicalParent<Window>(), this._controller);
-		}
+			DataContext = _controller
+		};
+		_taskbarIndicator.Regist(container.FindLogicalParent<Window>());
+		_input = new InputOperation(container.FindLogicalParent<Window>(), _controller);
+	}
 
-		private void ChangeControllerVisibleState(object sender, MouseButtonEventArgs e)
+	private void ChangeControllerVisibleState(object sender, MouseButtonEventArgs e)
+	{
+		if (e.ClickCount == 2)
 		{
-			if (e.ClickCount != 2)
-			{
-				return;
-			}
-			double value = (this.controllerOffset.Y > 0.0) ? 0.0 : this.controller.RenderSize.Height;
+			double value = ((controllerOffset.Y > 0.0) ? 0.0 : controller.RenderSize.Height);
 			DoubleAnimation animation = new DoubleAnimation
 			{
-				To = new double?(value),
+				To = value,
 				Duration = TimeSpan.FromSeconds(0.6),
 				EasingFunction = new CubicEase
 				{
 					EasingMode = EasingMode.EaseOut
 				}
 			};
-			this.controllerOffset.BeginAnimation(TranslateTransform.YProperty, animation);
+			controllerOffset.BeginAnimation(TranslateTransform.YProperty, animation);
 		}
-
-		[Import]
-		private TaskbarIndicator _taskbarIndicator;
-
-		[Import]
-		private MediaElement _mediaElement;
-
-		[Import]
-		private BulletCurtainController _controller;
-
-		private InputOperation _input;
-
-		internal Controller controller;
 	}
 }

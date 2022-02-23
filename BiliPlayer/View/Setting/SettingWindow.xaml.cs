@@ -3,16 +3,15 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace BiliPlayer.View.Player.Controls;
+namespace BiliPlayer.View.Setting;
 
-public partial class MainMenu : ContextMenu
+public partial class SettingWindow : Window
 {
-	public MainMenu()
+	public SettingWindow()
 	{
 		InitializeComponent();
+		base.DataContext = SettingData.Instance;
 	}
-
 }

@@ -1,61 +1,60 @@
-锘縰sing BiliPlayer.Util;
-using BiliPlayer.View;
+using System;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using BiliPlayer.Util;
+using BiliPlayer.View;
 
-namespace BiliPlayer
+namespace BiliPlayer;
+
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            Loaded += this.MainWindow_Loaded;
-        }
+	// 名词解释
+	// Subtitle 即弹幕
+	// 注入 SubtitleCanvas ControllerHost MediaPlayerHost 三个组件
+	[ImportMany]
+	private IViewPart[] _views;
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!WindowUtil.IsInDesignMode())
-            {
-                await Task.Delay(100);
-                this.compose();
-                foreach (IViewPart viewPart in this._views)
-                {
-                    this.root.Children.Add(viewPart as UIElement);
-                    viewPart.Init(this.root);
-                }
-            }
-        }
+	[Export]
+	private MediaElement _mediaElement;
 
-        private void compose()
-        {
-            this._mediaElement = new MediaElement
-            {
-                ScrubbingEnabled = true
-            };
-            using (AssemblyCatalog assemblyCatalog = new AssemblyCatalog(base.GetType().Assembly))
-            {
-                this._container = new CompositionContainer(assemblyCatalog, new ExportProvider[0]);
-                this._container.ComposeParts(new object[]
-                {
-                    this
-                });
-            }
-        }
+	private CompositionContainer _container;
 
-        [ImportMany]
-        private IViewPart[] _views;
+	public MainWindow()
+	{
+		InitializeComponent();
+		base.Loaded += MainWindow_Loaded;
+	}
 
-        [Export]
-        private MediaElement _mediaElement;
+	private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+	{
+		if (!WindowUtil.IsInDesignMode())
+		{
+			await Task.Delay(100);
+			compose();
+			IViewPart[] views = _views;
+			foreach (IViewPart viewPart in views)
+			{
+				root.Children.Add(viewPart as UIElement);
+				viewPart.Init(root);
+			}
+		}
+	}
 
-        private CompositionContainer _container;
-    }
+	private void compose()
+	{
+		_mediaElement = new MediaElement
+		{
+			ScrubbingEnabled = true
+		};
+		using AssemblyCatalog catalog = new AssemblyCatalog(GetType().Assembly);
+		_container = new CompositionContainer(catalog);
+		_container.ComposeParts(this);
+	}
 }

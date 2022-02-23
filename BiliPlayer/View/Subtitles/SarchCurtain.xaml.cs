@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,34 +8,29 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using BiliPlayer.View.Subtitles.ViewModel;
 
-namespace BiliPlayer.View.Subtitles
+namespace BiliPlayer.View.Subtitles;
+
+public partial class SarchCurtain : Window
 {
-	public partial class SarchCurtain : IComponentConnector
+	public SarchCurtain()
 	{
-		public SarchCurtain()
-		{
-			this.InitializeComponent();
-		}
+		InitializeComponent();
+	}
 
-		private void onClose(object sender, RoutedEventArgs e)
-		{
-			base.Close();
-		}
+	private void onClose(object sender, RoutedEventArgs e)
+	{
+		Close();
+	}
 
-		protected override async void OnClosed(EventArgs e)
+	protected override async void OnClosed(EventArgs e)
+	{
+		base.OnClosed(e);
+		await Task.Yield();
+		BulletCurtainController bulletCurtainController = DataContext as BulletCurtainController;
+		BiliPlayer.View.Subtitles.ViewModel.SarchCurtain sarchCurtain = root.DataContext as BiliPlayer.View.Subtitles.ViewModel.SarchCurtain;
+		if (sarchCurtain.Result == true)
 		{
-			base.OnClosed(e);
-			await Task.Yield();
-			BulletCurtainController bulletCurtainController = this.DataContext as BulletCurtainController;
-			SarchCurtain sarchCurtain = this.root.DataContext as SarchCurtain;
-			if (sarchCurtain.Result == true)
-			{
-				bulletCurtainController.Open(new string[]
-				{
-					null,
-					sarchCurtain.Content
-				});
-			}
+			bulletCurtainController.Open(null, sarchCurtain.Content);
 		}
 	}
 }

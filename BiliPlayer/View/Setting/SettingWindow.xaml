@@ -1,95 +1,46 @@
-﻿<Window
-	x:Class="BiliPlayer.View.Setting.SettingWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:BiliPlayer.View.Setting"
-	ResizeMode="NoResize"
-	ShowInTaskbar="False"
-	Title="设置"
-	Height="173"
-	Width="482">
-	<FrameworkElement.Resources>
-		<ResourceDictionary>
-			<Style
-				TargetType="{x:Type Label}"
-				x:Key="{x:Type Label}">
-				<Setter
-					Property="Width"
-					Value="72" />
-			</Style>
-		</ResourceDictionary>
-	</FrameworkElement.Resources>
-	<StackPanel
-		Margin="0,8">
-		<BulletDecorator
-			Margin="8">
-			<BulletDecorator.Bullet>
-				<Label
-					Content="字体：" />
-			</BulletDecorator.Bullet>
-			<StackPanel
-				Orientation="Horizontal"
-				Height="24">
-				<ComboBox
-					Width="150"
-					ItemsSource="{Binding Source={x:Static local:FontFamilies.ChineseFonts}}"
-					SelectedItem="{Binding FontFamily, Mode=TwoWay, Converter={local:NameToFont}}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<VirtualizingStackPanel />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<TextBlock
-								FontSize="12"
-								HorizontalAlignment="Center"
-								Margin="2"
-								Text="{Binding Converter={local:FontToName}}"
-								FontFamily="{Binding}" />
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ComboBox>
-				<CheckBox
-					Margin="24,0,0,0"
-					Content="描边"
-					VerticalAlignment="Center"
-					IsChecked="{Binding HasStroke}" />
-				<CheckBox
-					Margin="24,0,0,0"
-					Content="阴影"
-					VerticalAlignment="Center"
-					IsChecked="{Binding HasShadow}" />
-				<CheckBox
-					Margin="24,0,0,0"
-					Content="加粗"
-					VerticalAlignment="Center"
-					IsChecked="{Binding IsBold}" />
-			</StackPanel>
-		</BulletDecorator>
-		<BulletDecorator
-			Margin="8">
-			<BulletDecorator.Bullet>
-				<Label
-					Content="字体大小：" />
-			</BulletDecorator.Bullet>
-			<Slider
-				Minimum="0.8"
-				Maximum="1.5"
-				SmallChange="0.05"
-				LargeChange="0.05"
-				Value="{Binding FontScale, Delay=300}" />
-		</BulletDecorator>
-		<BulletDecorator
-			Margin="8">
-			<BulletDecorator.Bullet>
-				<Label
-					Content="不透明度：" />
-			</BulletDecorator.Bullet>
-			<Slider
-				AutoToolTipPlacement="TopLeft"
-				SmallChange="10"
-				LargeChange="10"
-				Interval="500"
-				Maximum="100"
-				Value="{Binding Opacity, Converter={local:OpacityConverter}}" />
-		</BulletDecorator>
-	</StackPanel>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="BiliPlayer.View.Setting.SettingWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:BiliPlayer.View.Setting" ResizeMode="NoResize" ShowInTaskbar="False" Title="设置" Height="173" Width="482">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
+        <Setter Property="Width" Value="72" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel Margin="0,8">
+    <BulletDecorator Margin="8">
+      <BulletDecorator.Bullet>
+        <Label Content="字体：" />
+      </BulletDecorator.Bullet>
+      <StackPanel Orientation="Horizontal" Height="24">
+        <ComboBox Width="150" ItemsSource="{Binding Source={x:Static local:FontFamilies.ChineseFonts}}" SelectedItem="{Binding FontFamily, Mode=TwoWay, Converter={local:NameToFont}}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <VirtualizingStackPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock FontSize="12" HorizontalAlignment="Center" Margin="2" Text="{Binding Converter={local:FontToName}}" FontFamily="{Binding}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <CheckBox Margin="24,0,0,0" Content="描边" VerticalAlignment="Center" IsChecked="{Binding HasStroke}" />
+        <CheckBox Margin="24,0,0,0" Content="阴影" VerticalAlignment="Center" IsChecked="{Binding HasShadow}" />
+        <CheckBox Margin="24,0,0,0" Content="加粗" VerticalAlignment="Center" IsChecked="{Binding IsBold}" />
+      </StackPanel>
+    </BulletDecorator>
+    <BulletDecorator Margin="8">
+      <BulletDecorator.Bullet>
+        <Label Content="字体大小：" />
+      </BulletDecorator.Bullet>
+      <Slider Minimum="0.8" Maximum="1.5" SmallChange="0.05" LargeChange="0.05" Value="{Binding FontScale, Delay=300}" />
+    </BulletDecorator>
+    <BulletDecorator Margin="8">
+      <BulletDecorator.Bullet>
+        <Label Content="不透明度：" />
+      </BulletDecorator.Bullet>
+      <Slider AutoToolTipPlacement="TopLeft" SmallChange="10" LargeChange="10" Interval="500" Maximum="100" Value="{Binding Opacity, Converter={local:OpacityConverter}}" />
+    </BulletDecorator>
+  </StackPanel>
 </Window>

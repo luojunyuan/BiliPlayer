@@ -1,14 +1,13 @@
-﻿using System;
+namespace BiliPlayer.Common.Data;
 
-namespace BiliPlayer.Common.Data
+internal static class ScrollModeExtension
 {
-	// Token: 0x02000038 RID: 56
-	internal static class ScrollModeExtension
+	public static bool IsFixedTitle(this ScrollMode mode)
 	{
-		// Token: 0x06000136 RID: 310 RVA: 0x00004CC7 File Offset: 0x00002EC7
-		public static bool IsFixedTitle(this ScrollMode mode)
+		if (mode != ScrollMode.Bottom)
 		{
-			return mode == ScrollMode.Bottom || mode == ScrollMode.Top;
+			return mode == ScrollMode.Top;
 		}
+		return true;
 	}
 }
